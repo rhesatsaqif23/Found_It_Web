@@ -28,6 +28,6 @@ class HomeController extends Controller
             ->take(6)
             ->get();
 
-        return view('index', compact('kategoris', 'barangTemuan', 'barangHilang'));
+        return view('admin.barangs.index', compact('kategoris', 'barangTemuan', 'barangHilang'));
     }
 }
