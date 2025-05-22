@@ -22,13 +22,11 @@ class Barang extends Model
         'status_id',
     ];
 
-    // Relasi ke Tipe
     public function tipe(): BelongsTo
     {
         return $this->belongsTo(Tipe::class);
     }
 
-    // Relasi ke Kategori
     public function kategori(): BelongsTo
     {
         return $this->belongsTo(Kategori::class);
@@ -39,9 +37,12 @@ class Barang extends Model
         return $this->belongsTo(User::class, 'pelapor_id');
     }
 
-    // Relasi ke Status
     public function status(): BelongsTo
     {
         return $this->belongsTo(Status::class);
     }
+
+    protected $casts = [
+        'waktu' => 'datetime',
+    ];
 }

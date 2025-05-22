@@ -14,7 +14,26 @@ class BarangController extends Controller
     public function index()
     {
         $barangs = Barang::with(['tipe', 'kategori', 'status'])->latest()->get();
-        return view('admin.barangs.index', compact('barangs'));
+        $kategoris = Kategori::all();
+
+        $barangTemuan = Barang::with('tipe')
+            ->whereHas('tipe', fn($q) => $q->where('nama', 'Temuan'))
+            ->orderByDesc('waktu')
+            ->take(6)
+            ->get();
+
+        $barangHilang = Barang::with('tipe')
+            ->whereHas('tipe', fn($q) => $q->where('nama', 'Hilang'))
+            ->orderByDesc('waktu')
+            ->take(6)
+            ->get();
+
+        return view('admin.barangs.index', compact(
+            'barangs',
+            'kategoris',
+            'barangTemuan',
+            'barangHilang'
+        ));
     }
 
     public function create()
