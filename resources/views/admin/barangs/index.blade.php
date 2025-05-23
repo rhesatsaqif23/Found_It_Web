@@ -69,7 +69,7 @@
 
 <x-app-layout>
     <div class="bg-[#f0f9ff]">
-        <div class="max-w-[1512px] mx-auto px-4 md:px-[50px] lg:px-[100px] pt-8 pb-12">
+        <div class="max-w-[1512px] mx-auto px-4 md:px-[50px] lg:px-[100px] pt-28 pb-8">
             <div class="flex flex-col md:flex-row justify-between gap-4">
                 <div style="background-image: url('{{ asset('assets/banner_hilang.png') }}');"
                     class="bg-cover bg-center rounded-[20px] w-full md:w-1/2 min-h-[290px] p-6 md:p-[40px] text-white flex flex-col justify-center">

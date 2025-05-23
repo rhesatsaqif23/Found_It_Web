@@ -12,12 +12,25 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
-    <!-- Scripts -->
+    <!-- Styles & Scripts via Vite -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    <style>
+        [x-cloak] {
+            display: none !important;
+        }
+    </style>
 </head>
 
-<body class="font-sans antialiased">
-    <div class="min-h-screen bg-gray-100">
+<body class="font-sans antialiased bg-gray-100">
+    <div class="min-h-screen" x-data>
+        <!-- Alpine store initialization -->
+        <script>
+            document.addEventListener('alpine:init', () => {
+                Alpine.store('mobileMenu', { open: false });
+            });
+        </script>
+
         @include('layouts.navigation')
 
         <!-- Page Heading -->
