@@ -20,6 +20,11 @@
             display: none !important;
         }
     </style>
+
+    <!-- Swiper -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
 </head>
 
 <body class="font-sans antialiased bg-gray-100">
