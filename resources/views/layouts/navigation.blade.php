@@ -139,7 +139,7 @@
 
         <!-- Search Bar -->
         <div x-data="{ open: false, search: '', history: ['charger type c', 'tws soundcore', 'mouse logitech'] }"
-            class="relative hidden lg:flex items-center gap-2 bg-white px-4 py-1 rounded-[10px] max-w-[500px] w-full shadow"
+            class="relative hidden lg:flex flex-[1_1_0%] min-w-0 items-center gap-2 bg-white px-4 py-1 rounded-[10px] max-w-[600px] shadow ml-[20px] mr-4"
             @click.away="open = false">
             <img src="{{ asset('assets/cari_abu.svg') }}" alt="Cari" class="w-[24px] h-[24px]" />
 
@@ -171,9 +171,9 @@
                     </button>
                     <div
                         class="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:visible group-hover:opacity-100 transition-all duration-300 ease-in-out z-50 overflow-hidden">
-                        <a href="{{ route('barangs.create') }}"
+                        <a href="{{ route('barangs.lapor-hilang') }}"
                             class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Barang Hilang</a>
-                        <a href="{{ route('barangs.create') }}"
+                        <a href="{{ route('barangs.lapor-temuan') }}"
                             class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Barang Temuan</a>
                     </div>
                 </div>

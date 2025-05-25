@@ -22,7 +22,7 @@
             <div class="w-full h-px bg-white opacity-50"></div>
 
             {{-- Lapor Barang Hilang --}}
-            <a href="{{ route('barangs.create') }}"
+            <a href="{{ route('barangs.lapor-hilang') }}"
                 class="flex items-center justify-between px-[20px] py-[8px] text-white text-[14px] font-medium font-['Poppins']">
                 Lapor Barang Hilang
                 <img src="{{ asset('assets/lanjut.svg') }}" alt=">" class="w-[14px] h-[14px]" />
@@ -30,7 +30,7 @@
             <div class="w-full h-px bg-white opacity-50"></div>
 
             {{-- Lapor Barang Temuan --}}
-            <a href="{{ route('barangs.create') }}"
+            <a href="{{ route('barangs.lapor-temuan') }}"
                 class="flex items-center justify-between px-[20px] py-[8px] text-white text-[14px] font-medium font-['Poppins']">
                 Lapor Barang Temuan
                 <img src="{{ asset('assets/lanjut.svg') }}" alt=">" class="w-[14px] h-[14px]" />
