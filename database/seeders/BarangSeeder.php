@@ -506,7 +506,7 @@ class BarangSeeder extends Seeder
             [
                 'nama' => 'Pensil Warna Faber Castell',
                 'tipe_id' => 1,
-                'kategori_id' => 6,
+                'kategori_id' => 7,
                 'pelapor_id' => 1,
                 'waktu' => Carbon::now()->subMinutes(80),
                 'lokasi' => 'Ruang Gambar FT UM',
@@ -518,7 +518,7 @@ class BarangSeeder extends Seeder
             [
                 'nama' => 'Pensil Faber-Castell',
                 'tipe_id' => 1,
-                'kategori_id' => 6,
+                'kategori_id' => 7,
                 'pelapor_id' => 1,
                 'waktu' => Carbon::now()->subMinutes(115),
                 'lokasi' => 'Perpustakaan Pusat UM',
@@ -530,7 +530,7 @@ class BarangSeeder extends Seeder
             [
                 'nama' => 'Buku Novel Looking For Alaska',
                 'tipe_id' => 1,
-                'kategori_id' => 6,
+                'kategori_id' => 7,
                 'pelapor_id' => 1,
                 'waktu' => Carbon::now()->subMinutes(155),
                 'lokasi' => 'Edutech Garden FILKOM',
@@ -542,7 +542,7 @@ class BarangSeeder extends Seeder
             [
                 'nama' => 'Buku Tulis Binder',
                 'tipe_id' => 1,
-                'kategori_id' => 6,
+                'kategori_id' => 7,
                 'pelapor_id' => 1,
                 'waktu' => Carbon::now()->subMinutes(65),
                 'lokasi' => 'Kelas F4.14 FILKOM',
@@ -554,7 +554,7 @@ class BarangSeeder extends Seeder
             [
                 'nama' => 'Pulpen St Dupont',
                 'tipe_id' => 1,
-                'kategori_id' => 6,
+                'kategori_id' => 7,
                 'pelapor_id' => 1,
                 'waktu' => Carbon::now()->subMinutes(210),
                 'lokasi' => 'Ruang Dosen FTP',
@@ -566,7 +566,7 @@ class BarangSeeder extends Seeder
             [
                 'nama' => 'Pulpen Montblanc Starwalker Platinum',
                 'tipe_id' => 1,
-                'kategori_id' => 6,
+                'kategori_id' => 7,
                 'pelapor_id' => 1,
                 'waktu' => Carbon::now()->subMinutes(260),
                 'lokasi' => 'Ruang Seminar Pascasarjana',
@@ -578,7 +578,7 @@ class BarangSeeder extends Seeder
             [
                 'nama' => 'Kemeja Kotak Oversize',
                 'tipe_id' => 1,
-                'kategori_id' => 7,
+                'kategori_id' => 8,
                 'pelapor_id' => 1,
                 'waktu' => Carbon::now()->subMinutes(80),
                 'lokasi' => 'Laundry Express Soekarno Hatta',
@@ -590,7 +590,7 @@ class BarangSeeder extends Seeder
             [
                 'nama' => 'Kemeja Denim',
                 'tipe_id' => 1,
-                'kategori_id' => 7,
+                'kategori_id' => 8,
                 'pelapor_id' => 1,
                 'waktu' => Carbon::now()->subMinutes(150),
                 'lokasi' => 'Kantin Fakultas Teknik',
@@ -602,7 +602,7 @@ class BarangSeeder extends Seeder
             [
                 'nama' => 'Kaos Anime Yu-Gi-Oh!',
                 'tipe_id' => 1,
-                'kategori_id' => 7,
+                'kategori_id' => 8,
                 'pelapor_id' => 1,
                 'waktu' => Carbon::now()->subMinutes(190),
                 'lokasi' => 'Studio Komik UM',
@@ -614,7 +614,7 @@ class BarangSeeder extends Seeder
             [
                 'nama' => 'Kaos Uniqlo Hitam',
                 'tipe_id' => 1,
-                'kategori_id' => 7,
+                'kategori_id' => 8,
                 'pelapor_id' => 1,
                 'waktu' => Carbon::now()->subMinutes(260),
                 'lokasi' => 'Masjid Baitul Ilmi',
@@ -626,7 +626,7 @@ class BarangSeeder extends Seeder
             [
                 'nama' => 'Ripped Boyfriend Jeans',
                 'tipe_id' => 1,
-                'kategori_id' => 7,
+                'kategori_id' => 8,
                 'pelapor_id' => 1,
                 'waktu' => Carbon::now()->subMinutes(290),
                 'lokasi' => 'Mall Olympic Garden',
@@ -638,7 +638,7 @@ class BarangSeeder extends Seeder
             [
                 'nama' => 'Topi Running Nike',
                 'tipe_id' => 1,
-                'kategori_id' => 7,
+                'kategori_id' => 8,
                 'pelapor_id' => 1,
                 'waktu' => Carbon::now()->subMinutes(60),
                 'lokasi' => 'Stadion Gajayana',

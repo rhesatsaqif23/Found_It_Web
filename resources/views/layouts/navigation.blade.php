@@ -125,11 +125,50 @@
     </div>
 </nav> --}}
 
-<nav
+<nav x-data="{
+        showMobileSearch: false,
+        search: '',
+        open: false,
+        history: [],
+        init() {
+            this.loadHistory();
+            this.showMobileSearch = false; // pastikan tidak langsung tampil
+        },
+        loadHistory() {
+            const saved = localStorage.getItem('searchHistory');
+            if (saved) {
+                this.history = JSON.parse(saved);
+            }
+        },
+        saveHistory() {
+            localStorage.setItem('searchHistory', JSON.stringify(this.history));
+        },
+        handleSubmit() {
+            const trimmed = this.search.trim();
+            if (!trimmed) {
+                return; // Stop jika kosong
+            }
+
+            const existingIndex = this.history.findIndex(i => i.toLowerCase() === trimmed.toLowerCase());
+            if (existingIndex !== -1) {
+                this.history.splice(existingIndex, 1);
+            }
+            this.history.unshift(trimmed);
+            this.history = this.history.slice(0, 10);
+            this.saveHistory();
+
+            window.location.href = '{{ route('barangs.cari') }}?q=' + encodeURIComponent(trimmed);
+        },
+        removeItem(index) {
+            this.history.splice(index, 1);
+            this.saveHistory();
+        }
+    }" x-init="init()"
     class="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-[#002347] to-[#184a90] border-b-[3px] border-[#f98125]">
+
     <div class="max-w-[1512px] mx-auto flex items-center justify-between px-[25px] md:px-[100px] py-[20px]">
         <!-- Logo -->
-        <div class="flex items-center gap-[15px]">
+        <div class="flex items-center gap-[15px]" x-show="!showMobileSearch">
             <img src="{{ asset('assets/logo_kecil.svg') }}" alt="Logo"
                 class="w-[40px] h-[40px] md:w-[45px] md:h-[45px]" />
             <h1 class="text-[24px] md:text-[28px] font-extrabold tracking-[1px] md:tracking-[2px] font-['Hellix']">
@@ -138,29 +177,78 @@
         </div>
 
         <!-- Search Bar -->
-        <div x-data="{ open: false, search: '', history: ['charger type c', 'tws soundcore', 'mouse logitech'] }"
-            class="relative hidden lg:flex flex-[1_1_0%] min-w-0 items-center gap-2 bg-white px-4 py-1 rounded-[10px] max-w-[600px] shadow ml-[20px] mr-4"
-            @click.away="open = false">
-            <img src="{{ asset('assets/cari_abu.svg') }}" alt="Cari" class="w-[24px] h-[24px]" />
+        <div x-init="loadHistory()" @click.away="open = false"
+            class="relative hidden lg:flex flex-[1_1_0%] min-w-0 items-center gap-2 bg-white px-4 py-1 rounded-[10px] max-w-[600px] shadow ml-[20px] mr-4">
 
-            <input type="text" placeholder="Cari barang" x-model="search" @focus="open = true"
-                @keydown.enter="if (search.trim() && !history.includes(search.trim())) history.unshift(search.trim()); open = false"
-                class="flex-1 border-none outline-none ring-0 focus:ring-0 focus:outline-none bg-transparent text-[16px] font-normal text-[#5D5D5D] font-['Poppins']" />
+            <!-- Input Form -->
+            <form @submit.prevent="handleSubmit()" class="flex items-center gap-2 w-full">
+                <input type="text" x-model="search" @focus="open = true" autocomplete="off" placeholder="Cari barang"
+                    class="flex-1 text-[#5D5D5D] text-[16px] font-['Poppins'] bg-transparent border-0 outline-none focus:ring-0" />
+                <button type="submit">
+                    <img src="{{ asset('assets/cari_abu.svg') }}" alt="Cari" class="w-[24px] h-[24px]" />
+                </button>
+            </form>
 
-            <div x-show="open" class="absolute top-[110%] left-0 bg-white w-full rounded-md shadow-lg border z-50">
+            <!-- Dropdown History -->
+            <div x-show="open && history.length > 0" x-cloak x-transition
+                class="absolute z-50 top-[110%] left-0 w-full bg-white rounded-[10px] shadow-lg mt-2 py-2">
                 <template x-for="(item, index) in history" :key="index">
                     <div class="flex justify-between items-center px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                        <div class="flex items-center gap-2 text-gray-700 text-[14px]">
-                            <img src="{{ asset('assets/riwayat.svg') }}" alt="Riwayat" class="w-[32px] h-[32px]" />
-                            <span x-text="item"></span>
+                        <div class="flex items-center gap-2 text-[#5D5D5D] text-[14px] font-['Poppins']"
+                            @click="search = item; open = false; handleSubmit()">
+                            <img src="{{ asset('assets/riwayat.svg') }}" alt="Riwayat" class="w-[20px] h-[20px]" />
+                            <span x-text="item" class="truncate max-w-[80%]"></span>
                         </div>
-                        <button @click="history.splice(index, 1)" class="hover:opacity-70">
-                            <img src="{{ asset('assets/batal.svg') }}" alt="Hapus" class="w-[24px] h-[24px]" />
+                        <button @click.stop="removeItem(index)" class="hover:opacity-70">
+                            <img src="{{ asset('assets/batal.svg') }}" alt="Hapus" class="w-[16px] h-[16px]" />
                         </button>
                     </div>
                 </template>
             </div>
         </div>
+
+        <script>
+            function searchBox() {
+                return {
+                    search: '',
+                    open: false,
+                    history: [],
+
+                    loadHistory() {
+                        const saved = localStorage.getItem('searchHistory');
+                        if (saved) {
+                            this.history = JSON.parse(saved);
+                        }
+                    },
+
+                    saveHistory() {
+                        localStorage.setItem('searchHistory', JSON.stringify(this.history));
+                    },
+
+                    handleSubmit() {
+                        const trimmed = this.search.trim();
+                        if (trimmed) {
+                            // Only store if not already in history
+                            const existingIndex = this.history.findIndex(i => i.toLowerCase() === trimmed.toLowerCase());
+                            if (existingIndex !== -1) {
+                                this.history.splice(existingIndex, 1); // remove duplicate
+                            }
+                            this.history.unshift(trimmed);
+                            this.history = this.history.slice(0, 10); // limit to last 10 items
+                            this.saveHistory();
+                        }
+
+                        // Simulate form submission (you can replace with real submission)
+                        window.location.href = `{{ route('barangs.cari') }}?q=${encodeURIComponent(trimmed)}`;
+                    },
+
+                    removeItem(index) {
+                        this.history.splice(index, 1);
+                        this.saveHistory();
+                    }
+                }
+            }
+        </script>
 
         <!-- Desktop Menu -->
         <div class="hidden md:flex items-center gap-[25px] text-white text-[16px] font-medium font-['Poppins']">
@@ -205,8 +293,26 @@
             @endguest
         </div>
 
-        <!-- Hamburger for mobile -->
-        <div class="md:hidden">
+        <!-- Mobile Search Bar -->
+        <div x-show="showMobileSearch" x-cloak
+            class="flex lg:hidden items-center bg-white px-3 rounded-[10px] shadow ml-4 mr-2 max-w-[70%] w-full">
+            <form @submit.prevent="handleSubmit()" class="flex items-center gap-2 w-full">
+                <input type="text" x-model="search" placeholder="Cari barang"
+                    class="flex-grow text-[#5D5D5D] text-[16px] font-['Poppins'] bg-transparent border-0 outline-none focus:ring-0 min-w-0" />
+                <button type="submit" class="shrink-0 min-w-[24px] min-h-[24px]">
+                    <img src="{{ asset('assets/cari_abu.svg') }}" alt="Cari" class="w-[24px] h-[24px] object-contain" />
+                </button>
+            </form>
+        </div>
+
+        <!-- Mobile Search & Hamburger -->
+        <div class="md:hidden flex items-center gap-4">
+            <!-- Search Icon -->
+            <button @click="showMobileSearch = !showMobileSearch" class="text-white focus:outline-none">
+                <img src="{{ asset('assets/cari.svg') }}" alt="Cari" class="w-8 h-8" />
+            </button>
+
+            <!-- Hamburger Menu -->
             <button @click="$store.mobileMenu.open = !$store.mobileMenu.open" class="text-white focus:outline-none">
                 <svg class="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />

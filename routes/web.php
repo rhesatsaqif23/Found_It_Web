@@ -19,6 +19,8 @@ Route::get('/barangs', [BarangController::class, 'index'])->name('barangs.index'
 Route::get('/barangs/lapor-hilang', [BarangController::class, 'createHilang'])->name('barangs.lapor-hilang');
 Route::get('/barangs/lapor-temuan', [BarangController::class, 'createTemuan'])->name('barangs.lapor-temuan');
 
+Route::get('/cari', [BarangController::class, 'cari'])->name('barangs.cari');
+
 // Rute yang mengandung parameter HARUS di bawah rute statis
 Route::get('/barangs/{barang}', [BarangController::class, 'show'])
     ->where('barang', '[0-9]+') // Tambahan opsional: batasi agar hanya cocok dengan angka

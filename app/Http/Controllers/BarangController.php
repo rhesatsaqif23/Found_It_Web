@@ -180,4 +180,28 @@ class BarangController extends Controller
 
         return redirect()->route('barangs.index')->with('success', 'Data barang berhasil dihapus');
     }
+
+    public function cari(Request $request)
+    {
+        $query = $request->input('q');
+        $tipeFilter = $request->input('tipe', 'Temuan'); // default 'Temuan'
+
+        $barangs = Barang::with(['kategori', 'tipe', 'status'])
+            ->where(function ($qBuilder) use ($query) {
+                $qBuilder->where('nama', 'like', '%' . $query . '%')
+                    ->orWhere('deskripsi', 'like', '%' . $query . '%')
+                    ->orWhereHas('kategori', function ($kategoriQuery) use ($query) {
+                        $kategoriQuery->where('nama', 'like', '%' . $query . '%');
+                    });
+            });
+
+        if ($tipeFilter) {
+            $barangs->whereHas('tipe', fn($q) => $q->where('nama', $tipeFilter));
+        }
+
+        $barangs = $barangs->latest()->get();
+        $kategoris = Kategori::all();
+
+        return view('user.barang.hasil-cari', compact('barangs', 'kategoris', 'query', 'tipeFilter'));
+    }
 }
