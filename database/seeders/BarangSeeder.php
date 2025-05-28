@@ -517,7 +517,7 @@ class BarangSeeder extends Seeder
             ],
             [
                 'nama' => 'Pensil Faber-Castell',
-                'tipe_id' => 1,
+                'tipe_id' => 2,
                 'kategori_id' => 7,
                 'pelapor_id' => 1,
                 'waktu' => Carbon::now()->subMinutes(115),
@@ -525,7 +525,7 @@ class BarangSeeder extends Seeder
                 'kontak' => '081234567891',
                 'deskripsi' => 'Pensil Faber-Castell tertinggal saat belajar.',
                 'foto' => 'https://media.karousell.com/media/photos/products/2025/5/15/pensil_fabercastell_1747312468_58e72733_progressive_thumbnail.jpg',
-                'status_id' => 2,
+                'status_id' => 1,
             ],
             [
                 'nama' => 'Buku Novel Looking For Alaska',
@@ -541,7 +541,7 @@ class BarangSeeder extends Seeder
             ],
             [
                 'nama' => 'Buku Tulis Binder',
-                'tipe_id' => 1,
+                'tipe_id' => 2,
                 'kategori_id' => 7,
                 'pelapor_id' => 1,
                 'waktu' => Carbon::now()->subMinutes(65),
@@ -549,7 +549,7 @@ class BarangSeeder extends Seeder
                 'kontak' => '081234567893',
                 'deskripsi' => 'Buku tulis binder berisi catatan penting tertinggal di kelas.',
                 'foto' => 'https://media.karousell.com/media/photos/products/2025/5/12/buku_tulis_binder_bank_n0bu_1747051779_8792d7b7_progressive_thumbnail.jpg',
-                'status_id' => 2,
+                'status_id' => 1,
             ],
             [
                 'nama' => 'Pulpen St Dupont',
@@ -565,7 +565,7 @@ class BarangSeeder extends Seeder
             ],
             [
                 'nama' => 'Pulpen Montblanc Starwalker Platinum',
-                'tipe_id' => 1,
+                'tipe_id' => 2,
                 'kategori_id' => 7,
                 'pelapor_id' => 1,
                 'waktu' => Carbon::now()->subMinutes(260),
@@ -573,7 +573,7 @@ class BarangSeeder extends Seeder
                 'kontak' => '081234567895',
                 'deskripsi' => 'Pulpen hadiah wisuda hilang setelah seminar.',
                 'foto' => 'https://media.karousell.com/media/photos/products/2025/5/13/pulpen_montblanc_starwalker_pl_1747179985_2dbd4af8_progressive_thumbnail.jpg',
-                'status_id' => 2,
+                'status_id' => 1,
             ],
             [
                 'nama' => 'Kemeja Kotak Oversize',
@@ -589,7 +589,7 @@ class BarangSeeder extends Seeder
             ],
             [
                 'nama' => 'Kemeja Denim',
-                'tipe_id' => 1,
+                'tipe_id' => 2,
                 'kategori_id' => 8,
                 'pelapor_id' => 1,
                 'waktu' => Carbon::now()->subMinutes(150),
@@ -597,7 +597,7 @@ class BarangSeeder extends Seeder
                 'kontak' => '081234567897',
                 'deskripsi' => 'Kemeja tertinggal di kursi kantin.',
                 'foto' => 'https://media.karousell.com/media/photos/products/2025/5/22/kemeja_denim__denim_shirt__kem_1747902016_0b6b7cbf_progressive_thumbnail.jpg',
-                'status_id' => 2,
+                'status_id' => 1,
             ],
             [
                 'nama' => 'Kaos Anime Yu-Gi-Oh!',
@@ -613,7 +613,7 @@ class BarangSeeder extends Seeder
             ],
             [
                 'nama' => 'Kaos Uniqlo Hitam',
-                'tipe_id' => 1,
+                'tipe_id' => 2,
                 'kategori_id' => 8,
                 'pelapor_id' => 1,
                 'waktu' => Carbon::now()->subMinutes(260),
@@ -621,7 +621,7 @@ class BarangSeeder extends Seeder
                 'kontak' => '081234567899',
                 'deskripsi' => 'Kaos tertinggal di tempat wudhu masjid.',
                 'foto' => 'https://media.karousell.com/media/photos/products/2025/5/22/kaos_uniqlo_hitam_1747896497_ee281e67_progressive_thumbnail.jpg',
-                'status_id' => 2,
+                'status_id' => 1,
             ],
             [
                 'nama' => 'Ripped Boyfriend Jeans',
@@ -637,7 +637,7 @@ class BarangSeeder extends Seeder
             ],
             [
                 'nama' => 'Topi Running Nike',
-                'tipe_id' => 1,
+                'tipe_id' => 2,
                 'kategori_id' => 8,
                 'pelapor_id' => 1,
                 'waktu' => Carbon::now()->subMinutes(60),
@@ -645,7 +645,7 @@ class BarangSeeder extends Seeder
                 'kontak' => '081234567801',
                 'deskripsi' => 'Topi tertinggal saat jogging pagi.',
                 'foto' => 'https://media.karousell.com/media/photos/products/2025/5/22/topi_running_nike__topi_second_1747903321_c87acdcd_progressive_thumbnail.jpg',
-                'status_id' => 2,
+                'status_id' => 1,
             ],
         ]);
     }

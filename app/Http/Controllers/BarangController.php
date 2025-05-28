@@ -189,7 +189,6 @@ class BarangController extends Controller
         $barangs = Barang::with(['kategori', 'tipe', 'status'])
             ->where(function ($qBuilder) use ($query) {
                 $qBuilder->where('nama', 'like', '%' . $query . '%')
-                    ->orWhere('deskripsi', 'like', '%' . $query . '%')
                     ->orWhereHas('kategori', function ($kategoriQuery) use ($query) {
                         $kategoriQuery->where('nama', 'like', '%' . $query . '%');
                     });

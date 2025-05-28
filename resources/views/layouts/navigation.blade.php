@@ -255,7 +255,7 @@
             @auth
                 <div class="relative group">
                     <button class="focus:outline-none text-white">
-                        Lapor Barang
+                        Lapor
                     </button>
                     <div
                         class="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:visible group-hover:opacity-100 transition-all duration-300 ease-in-out z-50 overflow-hidden">
@@ -266,7 +266,7 @@
                     </div>
                 </div>
 
-                <a href="{{ route('barangs.index') }}">Riwayat Laporan</a>
+                <a href="{{ route('barangs.index') }}">Riwayat</a>
 
                 <div class="relative group">
                     <button class="focus:outline-none text-white">
