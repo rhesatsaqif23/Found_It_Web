@@ -23,11 +23,19 @@
 
                 {{-- Tombol hanya tampil di desktop --}}
                 <div class="hidden lg:block mt-8">
-                    <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $barang->kontak) }}" target="_blank"
-                        class="bg-[#f98125] text-white font-bold text-[14px] sm:text-[16px] py-2 px-4 rounded-[10px] w-full text-center block">
-                        Hubungi Pelapor
-                    </a>
+                    @if((int) auth()->id() === (int) $barang->pelapor_id)
+                        <a href="{{ route('barang.edit', $barang->id) }}"
+                            class="bg-blue-600 text-white font-bold text-[14px] sm:text-[16px] py-2 px-4 rounded-[10px] w-full text-center block">
+                            Edit Laporanmu
+                        </a>
+                    @else
+                        <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $barang->kontak) }}" target="_blank"
+                            class="bg-[#f98125] text-white font-bold text-[14px] sm:text-[16px] py-2 px-4 rounded-[10px] w-full text-center block">
+                            Hubungi Pelapor
+                        </a>
+                    @endif
                 </div>
+
             </div>
 
             {{-- Detail informasi --}}
@@ -112,11 +120,20 @@
 
                 {{-- Tombol hanya tampil di mobile --}}
                 <div class="block lg:hidden mt-4 mb-8 sm:mb-4">
-                    <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $barang->kontak) }}" target="_blank"
-                        class="bg-[#f98125] text-white font-bold text-[14px] sm:text-[16px] py-2 px-4 rounded-[10px] w-full text-center block">
-                        Hubungi Pelapor
-                    </a>
+                    @if((int) auth()->id() === (int) $barang->pelapor_id)
+                        <a href="{{ route('barang.edit', $barang->id) }}"
+                            class="bg-blue-600 text-white font-bold text-[14px] sm:text-[16px] py-2 px-4 rounded-[10px] w-full text-center block">
+                            Edit Laporanmu
+                        </a>
+                    @else
+                        <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $barang->kontak) }}" target="_blank"
+                            class="bg-[#f98125] text-white font-bold text-[14px] sm:text-[16px] py-2 px-4 rounded-[10px] w-full text-center block">
+                            Hubungi Pelapor
+                        </a>
+                    @endif
                 </div>
+                <p>Logged in user ID: {{ auth()->id() }}</p>
+<p>Pelapor ID: {{ $barang->pelapor_id }}</p>
             </div>
         </div>
     </div>

@@ -122,6 +122,8 @@ class BarangController extends Controller
 
     public function show(Barang $barang)
     {
+        $barang->load(['pelapor', 'tipe', 'kategori', 'status']);
+
         $carbon = Carbon::parse($barang->waktu);
         $tanggal = $carbon->locale('id')->translatedFormat('l, d/m/Y');
         $jam = $carbon->format('H:i');
@@ -202,5 +204,18 @@ class BarangController extends Controller
         $kategoris = Kategori::all();
 
         return view('user.barang.hasil-cari', compact('barangs', 'kategoris', 'query', 'tipeFilter'));
+    }
+
+    public function riwayatLaporan()
+    {
+        $user = Auth::user();
+
+        $barangs = Barang::where('pelapor_id', $user->id)
+            ->latest()
+            ->get();
+
+        return view('user.barang.riwayat-laporan', [
+            'barangs' => $barangs
+        ]);
     }
 }

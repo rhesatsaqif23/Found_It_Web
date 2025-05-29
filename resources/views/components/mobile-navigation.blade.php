@@ -38,7 +38,7 @@
             <div class="w-full h-px bg-white opacity-50"></div>
 
             {{-- Riwayat Laporan --}}
-            <a href="{{ route('barangs.index') }}"
+            <a href="{{ route('barangs.riwayat') }}"
                 class="flex items-center justify-between px-[20px] py-[8px] text-white text-[14px] font-medium font-['Poppins']">
                 Riwayat Laporan
                 <img src="{{ asset('assets/lanjut.svg') }}" alt=">" class="w-[14px] h-[14px]" />

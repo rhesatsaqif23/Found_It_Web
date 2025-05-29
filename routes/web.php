@@ -32,6 +32,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/barangs/{barang}/edit', [BarangController::class, 'edit'])->name('barangs.edit');
     Route::put('/barangs/{barang}', [BarangController::class, 'update'])->name('barangs.update');
     Route::delete('/barangs/{barang}', [BarangController::class, 'destroy'])->name('barangs.destroy');
+    Route::get('/riwayat-laporan', [BarangController::class, 'riwayatLaporan'])->name('barangs.riwayat');
 
     // Profile routes
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

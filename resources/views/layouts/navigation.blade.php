@@ -253,6 +253,8 @@
         <!-- Desktop Menu -->
         <div class="hidden md:flex items-center gap-[25px] text-white text-[16px] font-medium font-['Poppins']">
             @auth
+                <a href="{{ route('barangs.index') }}">Beranda</a>
+
                 <div class="relative group">
                     <button class="focus:outline-none text-white">
                         Lapor
@@ -266,7 +268,7 @@
                     </div>
                 </div>
 
-                <a href="{{ route('barangs.index') }}">Riwayat</a>
+                <a href="{{ route('barangs.riwayat') }}">Riwayat</a>
 
                 <div class="relative group">
                     <button class="focus:outline-none text-white">
