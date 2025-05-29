@@ -51,15 +51,19 @@
             @endif
 
             {{-- Mobile only --}}
-            <div class="flex items-center justify-between gap-2 sm:hidden">
-                <p class="text-[13px] font-semibold {{ $isSelesai ? 'text-[#193a6f]' : 'text-[#c64a3e]' }}">
-                    {{ $statusTampilan }}
-                </p>
-                <a href="{{ route('barangs.edit', $barang) }}"
-                    class="flex items-center gap-1.5 px-1.5 py-1.5 rounded-[10px] bg-[#193a6f] text-white shadow text-[13px] font-medium whitespace-nowrap pointer-events-auto z-20">
-                    <img src="{{ asset('assets/edit.svg') }}" class="w-[18px] h-[18px]" alt="edit">
-                </a>
-            </div>
+            @if (!$isSelesai)
+                <div class="flex items-center justify-between gap-2 sm:hidden">
+                    <p class="text-[13px] font-semibold {{ $isSelesai ? 'text-[#193a6f]' : 'text-[#c64a3e]' }}">
+                        {{ $statusTampilan }}
+                    </p>
+                    <a href="{{ route('barangs.edit-laporan', $barang->id) }}" class="flex items-center gap-1.5 px-1.5 py-1.5 rounded-[10px] bg-[#193a6f] text-white shadow
+                    text-[13px] font-medium whitespace-nowrap pointer-events-auto z-20">
+                        <img src="{{ asset('assets/edit.svg') }}" class="w-[18px] h-[18px]" alt="edit">
+                    </a>
+                </div>
+            @else
+                <p class="text-[13px] font-semibold text-[#193a6f] sm:hidden">{{ $statusTampilan }}</p>
+            @endif
         </div>
 
         {{-- Desktop only --}}
@@ -68,11 +72,13 @@
                 {{ $statusTampilan }}
             </p>
 
-            <a href="{{ route('barangs.edit', $barang) }}"
-                class="flex items-center gap-2 px-4 py-2 rounded-[10px] bg-[#193a6f] text-white shadow text-[16px] font-medium pointer-events-auto z-20">
-                <img src="{{ asset('assets/edit.svg') }}" class="w-[20px] h-[20px]" alt="edit">
-                Edit
-            </a>
+            @if (!$isSelesai)
+                <a href="{{ route('barangs.edit-laporan', $barang->id) }}" class="flex items-center gap-2 px-4 py-2 rounded-[10px] bg-[#193a6f] text-white shadow text-[16px]
+                font-medium pointer-events-auto z-20">
+                    <img src="{{ asset('assets/edit.svg') }}" class="w-[20px] h-[20px]" alt="edit">
+                    Edit
+                </a>
+            @endif
         </div>
     </div>
 </div>

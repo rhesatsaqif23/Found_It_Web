@@ -12,6 +12,9 @@
                 $imageSrc = $foto
                     ? ($isUrl ? $foto : asset('storage/' . $foto))
                     : asset('assets/no_image.png');
+
+                $status = strtolower(trim($barang->status->nama ?? ''));
+                $isSelesai = Str::contains($status, ['sudah ditemukan', 'sudah dikembalikan']);
             @endphp
 
 
@@ -24,10 +27,25 @@
                 {{-- Tombol hanya tampil di desktop --}}
                 <div class="hidden lg:block mt-8">
                     @if((int) auth()->id() === (int) $barang->pelapor_id)
-                        <a href="{{ route('barang.edit', $barang->id) }}"
-                            class="bg-blue-600 text-white font-bold text-[14px] sm:text-[16px] py-2 px-4 rounded-[10px] w-full text-center block">
-                            Edit Laporanmu
-                        </a>
+                        <div class="flex flex-col gap-3">
+                            @if(!$isSelesai)
+                                <a href="{{ route('barangs.edit-laporan', $barang->id) }}"
+                                    class="bg-[#193a6f] text-white font-bold text-[14px] sm:text-[16px] py-2 px-4 rounded-[10px] w-full text-center block">
+                                    Edit Laporanmu
+                                </a>
+                            @endif
+
+                            {{-- Tombol hapus selalu tampil jika user adalah pelapor --}}
+                            <form action="{{ route('barangs.destroy', $barang->id) }}" method="POST"
+                                onsubmit="return confirm('Apakah kamu yakin ingin menghapus laporan ini?')">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit"
+                                    class="bg-red-600 hover:bg-red-700 text-white font-bold text-[14px] sm:text-[16px] py-2 px-4 rounded-[10px] w-full text-center block">
+                                    Hapus Laporan
+                                </button>
+                            </form>
+                        </div>
                     @else
                         <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $barang->kontak) }}" target="_blank"
                             class="bg-[#f98125] text-white font-bold text-[14px] sm:text-[16px] py-2 px-4 rounded-[10px] w-full text-center block">
@@ -121,10 +139,25 @@
                 {{-- Tombol hanya tampil di mobile --}}
                 <div class="block lg:hidden mt-4 mb-8 sm:mb-4">
                     @if((int) auth()->id() === (int) $barang->pelapor_id)
-                        <a href="{{ route('barang.edit', $barang->id) }}"
-                            class="bg-blue-600 text-white font-bold text-[14px] sm:text-[16px] py-2 px-4 rounded-[10px] w-full text-center block">
-                            Edit Laporanmu
-                        </a>
+                        <div class="flex flex-col gap-3">
+                            @if(!$isSelesai)
+                                <a href="{{ route('barangs.edit-laporan', $barang->id) }}"
+                                    class="bg-[#193a6f] text-white font-bold text-[14px] sm:text-[16px] py-2 px-4 rounded-[10px] w-full text-center block">
+                                    Edit Laporanmu
+                                </a>
+                            @endif
+
+                            {{-- Tombol hapus selalu tampil jika user adalah pelapor --}}
+                            <form action="{{ route('barangs.destroy', $barang->id) }}" method="POST"
+                                onsubmit="return confirm('Apakah kamu yakin ingin menghapus laporan ini?')">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit"
+                                    class="bg-red-600 hover:bg-red-700 text-white font-bold text-[14px] sm:text-[16px] py-2 px-4 rounded-[10px] w-full text-center block">
+                                    Hapus Laporan
+                                </button>
+                            </form>
+                        </div>
                     @else
                         <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $barang->kontak) }}" target="_blank"
                             class="bg-[#f98125] text-white font-bold text-[14px] sm:text-[16px] py-2 px-4 rounded-[10px] w-full text-center block">
@@ -132,8 +165,6 @@
                         </a>
                     @endif
                 </div>
-                <p>Logged in user ID: {{ auth()->id() }}</p>
-<p>Pelapor ID: {{ $barang->pelapor_id }}</p>
             </div>
         </div>
     </div>

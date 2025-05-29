@@ -17,14 +17,16 @@ class BarangController extends Controller
         $barangs = Barang::with(['tipe', 'kategori', 'status'])->latest()->get();
         $kategoris = Kategori::all();
 
-        $barangTemuan = Barang::with('tipe')
+        $barangTemuan = Barang::with('tipe', 'status')
             ->whereHas('tipe', fn($q) => $q->where('nama', 'Temuan'))
+            ->whereHas('status', fn($q) => $q->where('nama', 'Belum Dikembalikan'))
             ->orderByDesc('waktu')
             ->take(6)
             ->get();
 
-        $barangHilang = Barang::with('tipe')
+        $barangHilang = Barang::with('tipe', 'status')
             ->whereHas('tipe', fn($q) => $q->where('nama', 'Hilang'))
+            ->whereHas('status', fn($q) => $q->where('nama', 'Belum Ditemukan'))
             ->orderByDesc('waktu')
             ->take(6)
             ->get();
@@ -150,43 +152,54 @@ class BarangController extends Controller
 
     public function update(Request $request, Barang $barang)
     {
-        if (!Auth::check() || Auth::user()->role !== 'admin') {
-            abort(403);
-        }
-
         $request->validate([
             'nama' => 'required|string',
-            'tipe_id' => 'required|exists:tipes,id',
             'kategori_id' => 'required|exists:kategoris,id',
             'waktu' => 'nullable|date',
             'lokasi' => 'nullable|string',
-            'pelapor' => 'nullable|string',
             'kontak' => 'nullable|string',
             'deskripsi' => 'nullable|string',
-            'foto' => 'nullable|string',
+            'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'tipe_id' => 'required|exists:tipes,id',
             'status_id' => 'required|exists:statuses,id',
         ]);
 
-        $barang->update($request->all());
+        if ($request->hasFile('foto')) {
+            $fotoPath = $request->file('foto')->store('barangs', 'public');
+            $barang->foto = $fotoPath;
+        }
+
+        $barang->update([
+            'nama' => $request->nama,
+            'kategori_id' => $request->kategori_id,
+            'waktu' => $request->waktu,
+            'lokasi' => $request->lokasi,
+            'kontak' => $request->kontak,
+            'deskripsi' => $request->deskripsi,
+            'tipe_id' => $request->tipe_id,
+            'status_id' => $request->status_id,
+        ]);
 
         return redirect()->route('barangs.index')->with('success', 'Data barang berhasil diperbarui');
     }
 
     public function destroy(Barang $barang)
     {
-        if (!Auth::check() || Auth::user()->role !== 'admin') {
-            abort(403);
+        $user = Auth::user();
+
+        if (!$user || ($user->role !== 'admin' && (int) $user->id !== (int) $barang->pelapor_id)) {
+            abort(403, 'Anda tidak memiliki izin untuk menghapus laporan ini.');
         }
 
         $barang->delete();
 
-        return redirect()->route('barangs.index')->with('success', 'Data barang berhasil dihapus');
+        return redirect()->route('barangs.index')->with('success', 'Laporan berhasil dihapus.');
     }
 
     public function cari(Request $request)
     {
         $query = $request->input('q');
-        $tipeFilter = $request->input('tipe', 'Temuan'); // default 'Temuan'
+        $tipeFilter = $request->input('tipe', 'Temuan');
 
         $barangs = Barang::with(['kategori', 'tipe', 'status'])
             ->where(function ($qBuilder) use ($query) {
@@ -198,9 +211,16 @@ class BarangController extends Controller
 
         if ($tipeFilter) {
             $barangs->whereHas('tipe', fn($q) => $q->where('nama', $tipeFilter));
+
+            if ($tipeFilter === 'Temuan') {
+                $barangs->whereHas('status', fn($q) => $q->where('nama', 'Belum Dikembalikan'));
+            } elseif ($tipeFilter === 'Hilang') {
+                $barangs->whereHas('status', fn($q) => $q->where('nama', 'Belum Ditemukan'));
+            }
         }
 
-        $barangs = $barangs->latest()->get();
+        $barangs = $barangs->orderBy('waktu', 'desc')->get();  // <-- urutkan berdasarkan waktu terbaru
+
         $kategoris = Kategori::all();
 
         return view('user.barang.hasil-cari', compact('barangs', 'kategoris', 'query', 'tipeFilter'));
@@ -211,11 +231,42 @@ class BarangController extends Controller
         $user = Auth::user();
 
         $barangs = Barang::where('pelapor_id', $user->id)
-            ->latest()
+            ->orderBy('waktu', 'desc')  // <-- urutkan berdasarkan waktu terbaru
             ->get();
 
         return view('user.barang.riwayat-laporan', [
             'barangs' => $barangs
         ]);
+    }
+
+    public function editLaporan(Barang $barang)
+    {
+        $tipes = Tipe::all();
+        $kategoris = Kategori::all();
+        $statuses = Status::all();
+
+        return view('user.barang.edit-laporan', compact('barang', 'tipes', 'kategoris', 'statuses'));
+    }
+
+    public function selesaikan(Barang $barang)
+    {
+        $statusNama = strtolower($barang->status->nama);
+        $statusBaru = null;
+
+        if (str_contains($statusNama, 'belum ditemukan')) {
+            $statusBaru = Status::where('nama', 'Sudah Ditemukan')->first();
+        } elseif (str_contains($statusNama, 'belum dikembalikan')) {
+            $statusBaru = Status::where('nama', 'Sudah Dikembalikan')->first();
+        } else {
+            return back()->with('error', 'Laporan sudah selesai.');
+        }
+
+        if ($statusBaru) {
+            $barang->status_id = $statusBaru->id;
+            $barang->save();
+            return redirect()->route('barangs.index')->with('success', 'Status laporan berhasil diperbarui.');
+        }
+
+        return back()->with('error', 'Gagal memperbarui status.');
     }
 }
