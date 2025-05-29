@@ -8,24 +8,28 @@
 
                     {{-- Sidebar Filter --}}
                     <aside class="bg-white shadow rounded-[10px] p-5 w-full max-w-[220px] hidden lg:block">
-                        <h3 class="text-[#193a6f] text-[16px] font-semibold font-poppins">Filter Status</h3>
-                        <ul class="mt-2 space-y-2">
-                            <li>
-                                <label class="flex items-center gap-2 text-[14px] text-[#193a6f] font-medium">
-                                    <input type="checkbox" class="form-checkbox"> Belum Dikembalikan
-                                </label>
-                            </li>
-                            <li>
-                                <label class="flex items-center gap-2 text-[14px] text-[#193a6f] font-medium">
-                                    <input type="checkbox" class="form-checkbox"> Belum Ditemukan
-                                </label>
-                            </li>
-                            <li>
-                                <label class="flex items-center gap-2 text-[14px] text-[#193a6f] font-medium">
-                                    <input type="checkbox" class="form-checkbox"> Selesai
-                                </label>
-                            </li>
-                        </ul>
+                        <form method="GET" action="{{ route('barangs.riwayat') }}">
+                            <h3 class="text-[#193a6f] text-[16px] font-semibold font-poppins">Filter Status</h3>
+                            <ul class="mt-2 space-y-2">
+                                @php
+                                    $selectedStatus = request('status', []);
+                                @endphp
+                                @foreach (['Belum Dikembalikan', 'Belum Ditemukan', 'Selesai'] as $status)
+                                    <li>
+                                        <label class="flex items-center gap-2 text-[14px] text-[#193a6f] font-medium">
+                                            <input type="checkbox" class="form-checkbox" name="status[]" value="{{ $status }}"
+                                                {{ in_array($status, $selectedStatus) ? 'checked' : '' }}>
+                                            {{ $status }}
+                                        </label>
+                                    </li>
+                                @endforeach
+                            </ul>
+
+                            <button type="submit"
+                                class="mt-4 w-full text-white bg-[#193a6f] hover:bg-[#142e56] py-2 rounded-md font-poppins text-sm font-medium">
+                                Terapkan Filter
+                            </button>
+                        </form>
                     </aside>
 
                     {{-- Konten Utama --}}

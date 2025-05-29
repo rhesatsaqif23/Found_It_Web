@@ -7,29 +7,30 @@
 
                 {{-- Sidebar Filter --}}
                 <aside class="bg-white shadow rounded-[10px] p-5 w-full max-w-[220px] hidden md:block">
-                    <div class="mb-4">
-                        <h3 class="text-[#193a6f] text-[16px] font-semibold font-poppins">Kategori</h3>
-                        <ul class="mt-2 space-y-2">
-                            @foreach($kategoris as $kategori)
-                                <li class="flex items-center gap-2">
-                                    <input type="checkbox" class="form-checkbox" id="kategori-{{ $kategori->id }}">
-                                    <label for="kategori-{{ $kategori->id }}"
-                                        class="text-[14px] text-[#193a6f] font-medium font-poppins">
-                                        {{ $kategori->nama }}
-                                    </label>
-                                </li>
-                            @endforeach
-                        </ul>
-                    </div>
-                    <div class="mb-4">
-                        <h3 class="text-[#193a6f] text-[16px] font-semibold font-poppins">Waktu</h3>
-                    </div>
-                    <div class="mb-4">
-                        <h3 class="text-[#193a6f] text-[16px] font-semibold font-poppins">Lokasi</h3>
-                    </div>
-                    <div>
-                        <h3 class="text-[#193a6f] text-[16px] font-semibold font-poppins">Urutkan</h3>
-                    </div>
+                    <form method="GET" action="{{ route('barangs.cari') }}">
+                        <input type="hidden" name="q" value="{{ request('q') }}">
+                        <div class="mb-4">
+                            <h3 class="text-[#193a6f] text-[16px] font-semibold font-poppins">Kategori</h3>
+                            <ul class="mt-2 space-y-2">
+                                @foreach($kategoris as $kategori)
+                                    <li class="flex items-center gap-2">
+                                        <input type="checkbox" name="kategori[]" value="{{ $kategori->id }}"
+                                            id="kategori-{{ $kategori->id }}" class="form-checkbox"
+                                            {{in_array($kategori->id, (array) request('kategori')) ? 'checked' : '' }}>
+                                        <label for="kategori-{{ $kategori->id }}"
+                                            class="text-[14px] text-[#193a6f] font-medium font-poppins">
+                                            {{ $kategori->nama }}
+                                        </label>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+
+                        <button type="submit"
+                            class="mt-4 w-full text-white bg-[#193a6f] hover:bg-[#142e56] py-2 rounded-md font-poppins text-sm font-medium">
+                            Terapkan Filter
+                        </button>
+                    </form>
                 </aside>
 
                 {{-- Hasil Pencarian --}}
@@ -42,26 +43,66 @@
                             $inactiveTab = 'text-[#b0b0b0] font-semibold border-b-[3px] border-transparent';
                         @endphp
 
-                        <a href="{{ route('barangs.cari', ['q' => request('q'), 'tipe' => 'Temuan']) }}"
+                        <a href="{{ route('barangs.cari', ['q' => request('q'), 'tipe' => 'Temuan', 'kategori' => request('kategori')]) }}"
                             class="{{ $tabClass }} {{ $tipeFilter === 'Temuan' ? $activeTab : $inactiveTab }}">
                             <span class="text-[18px] font-poppins">Temuan</span>
                         </a>
 
-                        <a href="{{ route('barangs.cari', ['q' => request('q'), 'tipe' => 'Hilang']) }}"
+                        <a href="{{ route('barangs.cari', ['q' => request('q'), 'tipe' => 'Hilang', 'kategori' => request('kategori')]) }}"
                             class="{{ $tabClass }} {{ $tipeFilter === 'Hilang' ? $activeTab : $inactiveTab }}">
                             <span class="text-[18px] font-poppins">Hilang</span>
                         </a>
                     </div>
 
-                    {{-- Judul Hasil --}}
-                    <h2 class="text-[16px] md:text-[18px] font-semibold text-black mb-4">
-                        Hasil untuk: <span class="text-[#2c599d]">{{ request('q') }}</span>
-                    </h2>
+                    {{-- Judul Hasil & Tombol Filter --}}
+                    <div class="flex justify-between items-center mb-4 relative">
+                        @if(request('q'))
+                            <h2 class="text-[16px] md:text-[18px] font-semibold text-black">
+                                Hasil untuk: <span class="text-[#2c599d]">{{ request('q') }}</span>
+                            </h2>
+                        @endif
+
+                        {{-- Tombol Dropdown Filter --}}
+                        <div class="relative md:hidden">
+                            <button onclick="document.getElementById('dropdownFilter').classList.toggle('hidden')"
+                                class="w-10 h-10 rounded-full bg-[#193a6f] flex items-center justify-center shadow">
+                                <img src="{{ asset('assets/filter.svg') }}" alt="Filter" class="w-5 h-5">
+                            </button>
+
+                            {{-- Dropdown --}}
+                            <div id="dropdownFilter"
+                                class="absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-lg border hidden z-50">
+                                <form method="GET" action="{{ route('barangs.cari') }}" class="p-4">
+                                    <input type="hidden" name="q" value="{{ request('q') }}">
+
+                                    <h3 class="text-[#193a6f] text-[16px] font-semibold font-poppins mb-2">Kategori</h3>
+                                    <ul class="space-y-2 max-h-60 overflow-y-auto">
+                                        @foreach($kategoris as $kategori)
+                                            <li class="flex items-center gap-2">
+                                                <input type="checkbox" name="kategori[]" value="{{ $kategori->id }}"
+                                                    id="dropdown-kategori-{{ $kategori->id }}" class="form-checkbox"
+                                                    {{ in_array($kategori->id, (array) request('kategori')) ? 'checked' : '' }}>
+                                                <label for="dropdown-kategori-{{ $kategori->id }}"
+                                                    class="text-[14px] text-[#193a6f] font-medium font-poppins">
+                                                    {{ $kategori->nama }}
+                                                </label>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+
+                                    <button type="submit"
+                                        class="mt-4 w-full text-white bg-[#193a6f] hover:bg-[#142e56] py-2 rounded-md font-poppins text-sm font-medium">
+                                        Terapkan Filter
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
 
                     {{-- Daftar Barang --}}
                     @if($barangs->count())
                         <div class="grid gap-4 sm:gap-5 md:gap-6 grid-cols-[repeat(auto-fill,minmax(160px,1fr))]">
-                            
+
                             @foreach($barangs as $barang)
                                 <x-barang-card :barang="$barang" />
                             @endforeach

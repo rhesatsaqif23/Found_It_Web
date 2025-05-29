@@ -94,12 +94,12 @@
                     <div class="shrink-0 md:hidden" style="width: 5px;"></div>
 
                     @foreach ($kategoris as $kategori)
-                        <div
-                            class="aspect-square min-w-[100px] bg-white shadow rounded-[10px] flex flex-col items-center justify-center p-3 shrink-0">
+                        <a href="{{ route('barangs.cari', ['tipe' => 'Temuan', 'kategori' => [$kategori->id]]) }}"
+                            class="aspect-square min-w-[100px] bg-white shadow rounded-[10px] flex flex-col items-center justify-center p-3 shrink-0 hover:shadow-md transition">
                             <img src="/assets/{{ $kategori->nama }}.svg" class="max-h-full w-auto object-contain"
                                 alt="{{ $kategori->nama }}">
                             <p class="mt-2 text-[#193a6f] text-[12px] font-semibold text-center">{{ $kategori->nama }}</p>
-                        </div>
+                        </a>
                     @endforeach
 
                     <!-- Spacer kanan -->

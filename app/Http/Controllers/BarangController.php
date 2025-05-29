@@ -200,6 +200,7 @@ class BarangController extends Controller
     {
         $query = $request->input('q');
         $tipeFilter = $request->input('tipe', 'Temuan');
+        $kategoriFilter = $request->input('kategori', []); // ← array dari checkbox
 
         $barangs = Barang::with(['kategori', 'tipe', 'status'])
             ->where(function ($qBuilder) use ($query) {
@@ -209,6 +210,7 @@ class BarangController extends Controller
                     });
             });
 
+        // Filter berdasarkan tipe
         if ($tipeFilter) {
             $barangs->whereHas('tipe', fn($q) => $q->where('nama', $tipeFilter));
 
@@ -219,19 +221,48 @@ class BarangController extends Controller
             }
         }
 
-        $barangs = $barangs->orderBy('waktu', 'desc')->get();  // <-- urutkan berdasarkan waktu terbaru
+        // Filter berdasarkan kategori (jika ada yang dipilih)
+        if (!empty($kategoriFilter)) {
+            $barangs->whereIn('kategori_id', $kategoriFilter);
+        }
+
+        $barangs = $barangs->orderBy('waktu', 'desc')->get();
 
         $kategoris = Kategori::all();
 
-        return view('user.barang.hasil-cari', compact('barangs', 'kategoris', 'query', 'tipeFilter'));
+        return view('user.barang.hasil-cari', [
+            'barangs' => $barangs,
+            'kategoris' => $kategoris,
+            'query' => $query,
+            'tipeFilter' => $tipeFilter,
+        ]);
     }
 
-    public function riwayatLaporan()
+
+    public function riwayatLaporan(Request $request)
     {
         $user = Auth::user();
 
-        $barangs = Barang::where('pelapor_id', $user->id)
-            ->orderBy('waktu', 'desc')  // <-- urutkan berdasarkan waktu terbaru
+        $statusFilter = $request->input('status', []);
+
+        $barangs = Barang::with('status') // pastikan relasi status dimuat
+            ->where('pelapor_id', $user->id)
+            ->when(!empty($statusFilter), function ($query) use ($statusFilter) {
+                $query->where(function ($subQuery) use ($statusFilter) {
+                    foreach ($statusFilter as $status) {
+                        if ($status === 'Selesai') {
+                            $subQuery->orWhereHas('status', function ($q) {
+                                $q->whereIn('nama', ['Sudah Dikembalikan', 'Sudah Ditemukan']);
+                            });
+                        } else {
+                            $subQuery->orWhereHas('status', function ($q) use ($status) {
+                                $q->where('nama', $status);
+                            });
+                        }
+                    }
+                });
+            })
+            ->orderBy('waktu', 'desc')
             ->get();
 
         return view('user.barang.riwayat-laporan', [

@@ -27,7 +27,7 @@
                 {{-- Tombol hanya tampil di desktop --}}
                 <div class="hidden lg:block mt-8">
                     @if((int) auth()->id() === (int) $barang->pelapor_id)
-                        <div class="flex flex-col gap-3">
+                        <div x-data="{ showModal: false }" class="flex flex-col gap-3">
                             @if(!$isSelesai)
                                 <a href="{{ route('barangs.edit-laporan', $barang->id) }}"
                                     class="bg-[#193a6f] text-white font-bold text-[14px] sm:text-[16px] py-2 px-4 rounded-[10px] w-full text-center block">
@@ -35,16 +35,40 @@
                                 </a>
                             @endif
 
-                            {{-- Tombol hapus selalu tampil jika user adalah pelapor --}}
-                            <form action="{{ route('barangs.destroy', $barang->id) }}" method="POST"
-                                onsubmit="return confirm('Apakah kamu yakin ingin menghapus laporan ini?')">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit"
-                                    class="bg-red-600 hover:bg-red-700 text-white font-bold text-[14px] sm:text-[16px] py-2 px-4 rounded-[10px] w-full text-center block">
-                                    Hapus Laporan
-                                </button>
-                            </form>
+                            <!-- Tombol trigger modal -->
+                            <button @click="showModal = true"
+                                class="bg-red-600 hover:bg-red-700 text-white font-bold text-[14px] sm:text-[16px] py-2 px-4 rounded-[10px] w-full text-center block">
+                                Hapus Laporan
+                            </button>
+
+                            <!-- Modal Konfirmasi -->
+                            <div x-show="showModal" x-cloak
+                                class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+                                <div class="bg-white rounded-[20px] p-6 w-full max-w-md shadow-xl text-center"
+                                    @click.away="showModal = false">
+                                    <h2 class="text-xl font-bold mb-4 text-red-600">Hapus Laporan?</h2>
+                                    <p class="mb-6 text-gray-700">Apakah kamu yakin ingin menghapus laporan ini? Tindakan
+                                        ini tidak dapat dibatalkan.</p>
+
+                                    <div class="flex justify-center gap-4">
+                                        <!-- Batal -->
+                                        <button @click="showModal = false"
+                                            class="px-4 py-2 bg-gray-300 hover:bg-gray-400 text-black font-semibold rounded-[10px]">
+                                            Batal
+                                        </button>
+
+                                        <!-- Form hapus -->
+                                        <form action="{{ route('barangs.destroy', $barang->id) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit"
+                                                class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-[10px]">
+                                                Hapus
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     @else
                         <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $barang->kontak) }}" target="_blank"
@@ -53,7 +77,6 @@
                         </a>
                     @endif
                 </div>
-
             </div>
 
             {{-- Detail informasi --}}
@@ -139,7 +162,7 @@
                 {{-- Tombol hanya tampil di mobile --}}
                 <div class="block lg:hidden mt-4 mb-8 sm:mb-4">
                     @if((int) auth()->id() === (int) $barang->pelapor_id)
-                        <div class="flex flex-col gap-3">
+                        <div x-data="{ showModalMobile: false }" class="flex flex-col gap-3">
                             @if(!$isSelesai)
                                 <a href="{{ route('barangs.edit-laporan', $barang->id) }}"
                                     class="bg-[#193a6f] text-white font-bold text-[14px] sm:text-[16px] py-2 px-4 rounded-[10px] w-full text-center block">
@@ -147,16 +170,40 @@
                                 </a>
                             @endif
 
-                            {{-- Tombol hapus selalu tampil jika user adalah pelapor --}}
-                            <form action="{{ route('barangs.destroy', $barang->id) }}" method="POST"
-                                onsubmit="return confirm('Apakah kamu yakin ingin menghapus laporan ini?')">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit"
-                                    class="bg-red-600 hover:bg-red-700 text-white font-bold text-[14px] sm:text-[16px] py-2 px-4 rounded-[10px] w-full text-center block">
-                                    Hapus Laporan
-                                </button>
-                            </form>
+                            <!-- Tombol trigger modal -->
+                            <button @click="showModalMobile = true"
+                                class="bg-red-600 hover:bg-red-700 text-white font-bold text-[14px] sm:text-[16px] py-2 px-4 rounded-[10px] w-full text-center block">
+                                Hapus Laporan
+                            </button>
+
+                            <!-- Modal Konfirmasi -->
+                            <div x-show="showModalMobile" x-cloak
+                                class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+                                <div class="bg-white rounded-[20px] p-6 w-full max-w-md shadow-xl text-center"
+                                    @click.away="showModalMobile = false">
+                                    <h2 class="text-xl font-bold mb-4 text-red-600">Hapus Laporan?</h2>
+                                    <p class="mb-6 text-gray-700">Apakah kamu yakin ingin menghapus laporan ini? Tindakan
+                                        ini tidak dapat dibatalkan.</p>
+
+                                    <div class="flex justify-center gap-4">
+                                        <!-- Batal -->
+                                        <button @click="showModalMobile = false"
+                                            class="px-4 py-2 bg-gray-300 hover:bg-gray-400 text-black font-semibold rounded-[10px]">
+                                            Batal
+                                        </button>
+
+                                        <!-- Form hapus -->
+                                        <form action="{{ route('barangs.destroy', $barang->id) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit"
+                                                class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-[10px]">
+                                                Hapus
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     @else
                         <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $barang->kontak) }}" target="_blank"

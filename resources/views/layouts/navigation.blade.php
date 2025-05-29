@@ -127,12 +127,13 @@
 
 <nav x-data="{
         showMobileSearch: false,
-        search: '',
+        search: '', // <-- akan diisi dari URL
         open: false,
         history: [],
         init() {
             this.loadHistory();
-            this.showMobileSearch = false; // pastikan tidak langsung tampil
+            this.search = new URLSearchParams(window.location.search).get('q') || '';
+            this.showMobileSearch = false;
         },
         loadHistory() {
             const saved = localStorage.getItem('searchHistory');
@@ -145,9 +146,7 @@
         },
         handleSubmit() {
             const trimmed = this.search.trim();
-            if (!trimmed) {
-                return; // Stop jika kosong
-            }
+            if (!trimmed) return;
 
             const existingIndex = this.history.findIndex(i => i.toLowerCase() === trimmed.toLowerCase());
             if (existingIndex !== -1) {

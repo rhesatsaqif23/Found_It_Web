@@ -35,14 +35,15 @@
                 <div>
                     <label for="waktu" class="font-semibold text-[16px] text-black">Waktu</label>
                     <input type="datetime-local" name="waktu" id="waktu"
-                        class="w-full border border-[#b0b0b0] rounded-[10px] px-4 py-2 mt-1" value="{{ old('waktu') }}" required>
+                        class="w-full border border-[#b0b0b0] rounded-[10px] px-4 py-2 mt-1" value="{{ old('waktu') }}"
+                        required>
                 </div>
 
                 <div>
                     <label for="lokasi" class="font-semibold text-[16px] text-black">Lokasi</label>
                     <input type="text" name="lokasi" id="lokasi"
-                        class="w-full border border-[#b0b0b0] rounded-[10px] px-4 py-2 mt-1"
-                        value="{{ old('lokasi') }}" required>
+                        class="w-full border border-[#b0b0b0] rounded-[10px] px-4 py-2 mt-1" value="{{ old('lokasi') }}"
+                        required>
                 </div>
 
                 <div>
@@ -54,8 +55,8 @@
                 <div>
                     <label for="kontak" class="font-semibold text-[16px] text-black">Kontak</label>
                     <input type="text" name="kontak" id="kontak"
-                        class="w-full border border-[#b0b0b0] rounded-[10px] px-4 py-2 mt-1"
-                        value="{{ old('kontak') }}" required>
+                        class="w-full border border-[#b0b0b0] rounded-[10px] px-4 py-2 mt-1" value="{{ old('kontak') }}"
+                        required>
                 </div>
 
                 <div>
