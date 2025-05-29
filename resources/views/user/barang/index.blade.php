@@ -17,10 +17,12 @@
                                     </h1>
                                     <p class="mt-2 text-sm sm:text-base font-semibold">Temukan atau laporkan dengan
                                         mudah!</p>
-                                    <a href="{{ route('barangs.lapor-hilang') }}"
-                                        class="inline-block mt-4 px-4 sm:px-6 py-2 sm:py-3 bg-[#f98125] rounded-[10px] text-white font-semibold text-sm sm:text-[18px] w-auto">
-                                        Lapor Sekarang
-                                    </a>
+                                    @auth
+                                        <a href="{{ route('barangs.lapor-hilang') }}"
+                                            class="inline-block mt-4 px-4 sm:px-6 py-2 sm:py-3 bg-[#f98125] rounded-[10px] text-white font-semibold text-sm sm:text-[18px] w-auto">
+                                            Lapor Sekarang
+                                        </a>
+                                    @endauth
                                 </div>
                             </div>
                         </div>
@@ -36,10 +38,12 @@
                                     </h1>
                                     <p class="mt-2 text-sm sm:text-base font-semibold">Kembalikan barang milik orang
                                         lain dan raih poin</p>
-                                    <a href="#"
-                                        class="inline-block mt-4 px-4 sm:px-6 py-2 sm:py-3 bg-[#2c599d] rounded-[10px] text-white font-semibold text-sm sm:text-[18px] w-auto">
-                                        Tukarkan Poin
-                                    </a>
+                                    @auth
+                                        <a href="#"
+                                            class="inline-block mt-4 px-4 sm:px-6 py-2 sm:py-3 bg-[#2c599d] rounded-[10px] text-white font-semibold text-sm sm:text-[18px] w-auto">
+                                            Tukarkan Poin
+                                        </a>
+                                    @endauth
                                 </div>
                             </div>
                         </div>
@@ -62,10 +66,12 @@
                         <p class="mt-4 text-[14px] md:text-[16px] font-semibold">
                             Temukan atau laporkan dengan mudah!
                         </p>
-                        <a href="{{ route('barangs.lapor-hilang') }}"
-                            class="inline-block mt-6 px-4 py-2 bg-[#f98125] rounded-[10px] text-white font-semibold text-sm md:text-base">
-                            Lapor Sekarang
-                        </a>
+                        @auth
+                            <a href="{{ route('barangs.lapor-hilang') }}"
+                                class="inline-block mt-6 px-4 py-2 bg-[#f98125] rounded-[10px] text-white font-semibold text-sm md:text-base">
+                                Lapor Sekarang
+                            </a>
+                        @endauth
                     </div>
                 </div>
 
@@ -79,10 +85,12 @@
                         <p class="mt-4 text-[14px] md:text-[16px] font-semibold">
                             Kembalikan barang milik orang lain dan raih poin
                         </p>
-                        <a href="#"
-                            class="inline-block mt-6 px-4 py-2 bg-[#2c599d] rounded-[10px] text-white font-semibold text-sm md:text-base">
-                            Tukarkan Poin
-                        </a>
+                        @auth
+                            <a href="#"
+                                class="inline-block mt-6 px-4 py-2 bg-[#2c599d] rounded-[10px] text-white font-semibold text-sm md:text-base">
+                                Tukarkan Poin
+                            </a>
+                        @endauth
                     </div>
                 </div>
             </div>
